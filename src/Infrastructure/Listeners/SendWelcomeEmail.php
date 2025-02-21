@@ -1,0 +1,13 @@
+<?php
+namespace App\Infrastructure\Listeners;
+
+use App\Domain\UserRegisteredEvent;
+
+class SendWelcomeEmail
+{
+    public function __invoke(UserRegisteredEvent $event): void
+    {
+        $user = $event->getUser();
+        echo "Sending welcome email to: {$user->getEmail()}\n";
+    }
+}
