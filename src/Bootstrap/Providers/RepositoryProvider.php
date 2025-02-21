@@ -1,9 +1,9 @@
 <?php
 namespace App\Bootstrap\Providers;
 
-use DI\ContainerBuilder;
 use App\Ports\UserRepository;
-use App\Infrastructure\MySqlUserRepository;
+use DI\ContainerBuilder;
+use App\Infrastructure\Repositories\MySql\MySqlUserRepository;
 
 class RepositoryProvider
 {

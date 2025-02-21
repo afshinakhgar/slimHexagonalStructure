@@ -1,8 +1,8 @@
 <?php
-namespace App\Application;
+namespace App\Application\Services;
 
-use App\Ports\UserRepository;
 use App\Ports\EventDispatcher;
+use App\Ports\UserRepository;
 
 class UpdateProfileService
 {
@@ -15,15 +15,15 @@ class UpdateProfileService
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function execute(int $userId, string $name): \App\Domain\User
+    public function execute(int $userId, string $name): \App\Domain\Entity\User
     {
         $user = $this->userRepository->findById($userId);
         if (!$user) {
             throw new \Exception('User not found');
         }
-        $updatedUser = new \App\Domain\User($user->getId(), $name, $user->getEmail(), $user->getPassword());
+        $updatedUser = new \App\Domain\Entity\User($user->getId(), $name, $user->getEmail(), $user->getPassword());
         $this->userRepository->save($updatedUser);
-        $this->eventDispatcher->dispatch(new \App\Domain\UserProfileUpdatedEvent($updatedUser));
+        $this->eventDispatcher->dispatch(new \App\Domain\Events\UserProfileUpdatedEvent($updatedUser));
         return $updatedUser;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace App\Infrastructure\Listeners;
 
-use App\Domain\UserLoggedInEvent;
+use App\Domain\Events\UserLoggedInEvent;
 
 class LogUserLogin
 {

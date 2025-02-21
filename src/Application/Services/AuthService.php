@@ -1,10 +1,10 @@
 <?php
-namespace App\Application;
+namespace App\Application\Services;
 
-use App\Ports\UserRepository;
 use App\Ports\EventDispatcher;
+use App\Ports\UserRepository;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use Monolog\Logger;
 
 class AuthService
 {
@@ -12,20 +12,20 @@ class AuthService
     private EventDispatcher $eventDispatcher;
     private string $jwtSecret;
 
-    public function __construct(UserRepository $userRepository, EventDispatcher $eventDispatcher, string $jwtSecret)
+    public function __construct(UserRepository $userRepository, EventDispatcher $eventDispatcher, string $jwtSecret, Logger $logger)
     {
         $this->userRepository = $userRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->jwtSecret = $jwtSecret;
     }
 
-    public function register(string $name, string $email, string $password): \App\Domain\User
+    public function register(string $name, string $email, string $password): \App\Domain\Entity\User
     {
-        $id = random_int(1, 1000);
+        $id = rand(1, 1000);
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $user = new \App\Domain\User($id, $name, $email, $hashedPassword);
+        $user = new \App\Domain\Entity\User($id, $name, $email, $hashedPassword);
         $this->userRepository->save($user);
-        $this->eventDispatcher->dispatch(new \App\Domain\UserRegisteredEvent($user));
+        $this->eventDispatcher->dispatch(new \App\Domain\Events\UserRegisteredEvent($user));
         return $user;
     }
 
@@ -35,10 +35,13 @@ class AuthService
         if ($user && password_verify($password, $user->getPassword())) {
             return $this->generateToken($user);
         }
+
+        $this->logger->warning("Failed login attempt for email: {$email}");
+
         return null;
     }
 
-    private function generateToken(\App\Domain\User $user): string
+    private function generateToken(\App\Domain\Entity\User $user): string
     {
         $payload = [
             'sub' => $user->getId(),

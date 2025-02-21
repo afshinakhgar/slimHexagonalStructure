@@ -1,7 +1,7 @@
 <?php
 namespace App\Infrastructure\Listeners;
 
-use App\Domain\UserRegisteredEvent;
+use App\Domain\Events\UserRegisteredEvent;
 
 class LogUserRegistration
 {

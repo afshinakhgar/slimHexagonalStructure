@@ -1,6 +1,6 @@
 <?php
 use Slim\App;
-use App\Application\Http\Controllers\AuthController;
+use App\Application\Http\Controllers\Users\{RegisterUser, LoginUser, UpdateProfile};
 
 return function (App $app) {
     // Add global middleware
@@ -12,26 +12,12 @@ return function (App $app) {
         return $response->withHeader('Content-Type', 'application/json; charset=UTF-8');
     });
 
-    // Register route
-    $app->post('/register', [AuthController::class, 'register']);
+    // Register user route
+    $app->post('/register', RegisterUser::class);
 
-    // Login route
-    $app->post('/login', [AuthController::class, 'login']);
+    // Login user route
+    $app->post('/login', LoginUser::class);
 
     // Protected route with AuthMiddleware
-    $app->get('/protected', function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response) {
-        $userId = $request->getAttribute('user_id');
-        $response->getBody()->write(json_encode(['message' => "Hello user $userId"]));
-        return $response->withHeader('Content-Type', 'application/json; charset=UTF-8');
-    })->add(\App\Infrastructure\Middleware\AuthMiddleware::class);
-
-    // Update profile route with AuthMiddleware
-    $app->put('/profile', function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args) {
-        $data = $request->getParsedBody();
-        $userId = $request->getAttribute('user_id');
-        $service = $GLOBALS['container']->get(\App\Application\Services\UpdateProfileService::class);
-        $user = $service->execute($userId, $data['name']);
-        $response->getBody()->write(json_encode(['id' => $user->getId(), 'name' => $user->getName()]));
-        return $response->withHeader('Content-Type', 'application/json; charset=UTF-8');
-    })->add(\App\Infrastructure\Middleware\AuthMiddleware::class);
+    $app->put('/profile', UpdateProfile::class)->add(\App\Infrastructure\Middleware\AuthMiddleware::class);
 };

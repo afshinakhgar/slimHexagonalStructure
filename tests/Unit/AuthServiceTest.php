@@ -1,13 +1,13 @@
 <?php
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use Mockery;
-use App\Application\AuthService;
-use App\Ports\UserRepository;
+use App\Application\Services\AuthService;
+use App\Domain\Entity\User;
+use App\Domain\Events\UserRegisteredEvent;
 use App\Ports\EventDispatcher;
-use App\Domain\User;
-use App\Domain\UserRegisteredEvent;
+use App\Ports\UserRepository;
+use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class AuthServiceTest extends TestCase
 {

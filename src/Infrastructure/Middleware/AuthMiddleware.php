@@ -3,7 +3,6 @@ namespace App\Infrastructure\Middleware;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -11,12 +10,13 @@ class AuthMiddleware
 {
     private string $jwtSecret;
 
-    public function __construct(string $jwtSecret)
+    public function __construct($container)
     {
-        $this->jwtSecret = $jwtSecret;
+        // Get JWT secret from the container
+        $this->jwtSecret = $container->get('config')['jwtSecret'];
     }
 
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         $authHeader = $request->getHeaderLine('Authorization');
         if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
@@ -27,7 +27,7 @@ class AuthMiddleware
         try {
             $decoded = JWT::decode($token, new Key($this->jwtSecret, 'HS256'));
             $request = $request->withAttribute('user_id', $decoded->sub);
-            return $handler->handle($request);
+            return $next($request);
         } catch (\Exception $e) {
             return $this->unauthorizedResponse();
         }

@@ -1,11 +1,11 @@
 <?php
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use Mockery;
-use App\Application\CreateUserService;
+use App\Application\Services\CreateUserService;
+use App\Domain\Entity\User;
 use App\Ports\UserRepository;
-use App\Domain\User;
+use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class CreateUserServiceTest extends TestCase
 {

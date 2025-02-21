@@ -1,5 +1,5 @@
 <?php
-namespace App\Application;
+namespace App\Application\Services;
 
 use App\Ports\UserRepository;
 
@@ -12,10 +12,10 @@ class CreateUserService
         $this->userRepository = $userRepository;
     }
 
-    public function execute(string $name, string $email): \App\Domain\User
+    public function execute(string $name, string $email): \App\Domain\Entity\User
     {
         $id = random_int(1, 1000);
-        $user = new \App\Domain\User($id, $name, $email, '');
+        $user = new \App\Domain\Entity\User($id, $name, $email, '');
         $this->userRepository->save($user);
         return $user;
     }
