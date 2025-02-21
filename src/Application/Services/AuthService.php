@@ -11,9 +11,11 @@ class AuthService
     private UserRepository $userRepository;
     private EventDispatcher $eventDispatcher;
     private string $jwtSecret;
+    private Logger $logger; // Define the logger property
 
     public function __construct(UserRepository $userRepository, EventDispatcher $eventDispatcher, string $jwtSecret, Logger $logger)
     {
+        $this->logger = $logger;
         $this->userRepository = $userRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->jwtSecret = $jwtSecret;
@@ -22,6 +24,7 @@ class AuthService
     public function register(string $name, string $email, string $password): \App\Domain\Entity\User
     {
         $id = rand(1, 1000);
+
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $user = new \App\Domain\Entity\User($id, $name, $email, $hashedPassword);
         $this->userRepository->save($user);

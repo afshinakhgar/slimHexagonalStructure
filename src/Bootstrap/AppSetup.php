@@ -18,6 +18,7 @@ class AppSetup
 
         // Create Slim app
         $app = AppFactory::create();
+        $app->addBodyParsingMiddleware();
 
         // Load routes from src/Routes/web.php
         $routes = require __DIR__ . '/../Routes/web.php';

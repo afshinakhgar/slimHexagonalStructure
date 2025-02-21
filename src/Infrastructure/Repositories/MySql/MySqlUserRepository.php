@@ -2,9 +2,10 @@
 namespace App\Infrastructure\Repositories\MySql;
 
 use App\Domain\Entity\User;
+use App\Ports\UserRepository;
 use PDO;
 
-class MySqlUserRepository
+class MySqlUserRepository implements UserRepository
 {
     private PDO $pdo;
 

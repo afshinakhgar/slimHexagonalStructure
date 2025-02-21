@@ -17,7 +17,7 @@ $builder->addDefinitions([
 $builder->addDefinitions([
     Logger::class => function () {
         $logger = new Logger('app_logger');
-        $logger->pushHandler(new StreamHandler(__DIR__ . '/../../storage/logs/app.log', Logger::DEBUG));
+        $logger->pushHandler(new StreamHandler(__DIR__ . '../../../../storage/logs/app.log', Logger::DEBUG));
         return $logger;
     },
 ]);

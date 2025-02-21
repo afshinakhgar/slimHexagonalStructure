@@ -5,7 +5,10 @@
             "App\\": "src/",
             "Tests\\": "Tests/",
             "App\\Infrastructure\\Repositories\\MySql\\": "src/Infrastructure/Repositories/MySql/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "require": {
         "php-di/php-di": "^7.0",

@@ -17,6 +17,7 @@ class LoginUser
     public function __invoke(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
+
         $token = $this->authService->login($data['email'], $data['password']);
         if ($token) {
             $response->getBody()->write(json_encode(['token' => $token]));

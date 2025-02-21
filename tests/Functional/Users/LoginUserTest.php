@@ -18,14 +18,13 @@ class LoginUserTest extends TestCase
 
         // Create a valid Uri object
         $uri = new Uri('http', 'localhost', 80, '/login');
-
         // Create a valid Headers object
         $headers = new Headers();
         $headers->addHeader('Content-Type', 'application/json');
 
         // Create a valid Stream object for the body
         $body = new Stream(fopen('php://temp', 'r+'));
-        $body->write(json_encode(['email' => 'john@example.com', 'password' => 'secret']));
+        $body->write(json_encode(['email' => 'john@example.com', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi']));
         $body->seek(0); // Reset stream pointer to the beginning
 
         // Create the Request object with all required parameters

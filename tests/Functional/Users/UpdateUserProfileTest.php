@@ -26,7 +26,7 @@ class UpdateUserProfileTest extends TestCase
 
         // Create a valid Stream object for the body
         $body = new Stream(fopen('php://temp', 'r+'));
-        $body->write(json_encode(['name' => 'Jane Doe']));
+        $body->write(json_encode(['name' => 'Jane Doe','email'=>'john@doe.com','password'=>'password']));
         $body->seek(0); // Reset stream pointer to the beginning
 
         // Create the Request object with all required parameters
@@ -45,7 +45,6 @@ class UpdateUserProfileTest extends TestCase
 
         // Handle the request
         $response = $app->handle($request);
-
         // Assertions
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertJson((string)$response->getBody());
