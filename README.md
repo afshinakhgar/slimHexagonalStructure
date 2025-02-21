@@ -1,4 +1,4 @@
-Understood! Here's the updated tutorial without the **Project Setup** section:
+Got it! Let's integrate the **MySQL table structure** directly into the tutorial. This will help users understand how to set up the database schema for the project.
 
 ---
 
@@ -17,11 +17,12 @@ In this tutorial, we'll walk through building a simple **User Registration and A
    - Domain
    - Application
    - Infrastructure
-4. **Dependency Injection**
-5. **Middleware**
-6. **Testing**
-7. **Running the Application**
-8. **Conclusion**
+4. **MySQL Table Structure**
+5. **Dependency Injection**
+6. **Middleware**
+7. **Testing**
+8. **Running the Application**
+9. **Conclusion**
 
 ---
 
@@ -224,7 +225,33 @@ class MySqlUserRepository implements UserRepository
 
 ---
 
-### **4. Dependency Injection**
+### **4. MySQL Table Structure**
+
+To store user data, we need to create a `users` table in the MySQL database. Below is the SQL script to create the table with proper UTF-8 support:
+
+```sql
+CREATE DATABASE my_hex_project CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE my_hex_project;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+**Explanation:**
+- `id`: A unique identifier for each user (auto-incremented).
+- `name`: The user's full name.
+- `email`: The user's email address (must be unique).
+- `password`: The hashed password for authentication.
+- `CHARACTER SET utf8mb4`: Ensures full Unicode support, including emojis.
+- `COLLATE utf8mb4_unicode_ci`: Provides case-insensitive sorting and comparison.
+
+---
+
+### **5. Dependency Injection**
 
 Dependency Injection (DI) is used to inject dependencies like repositories and services into controllers and other components.
 
@@ -238,7 +265,7 @@ $builder->addDefinitions([
 
 ---
 
-### **5. Middleware**
+### **6. Middleware**
 
 Middleware is used to handle cross-cutting concerns like authentication and logging.
 
@@ -264,7 +291,7 @@ public function __invoke(Request $request, callable $next): Response
 
 ---
 
-### **6. Testing**
+### **7. Testing**
 
 Write unit tests for your services and integration tests for your controllers. Use PHPUnit for testing:
 
@@ -274,7 +301,7 @@ vendor/bin/phpunit tests/
 
 ---
 
-### **7. Running the Application**
+### **8. Running the Application**
 
 Start the server:
 
@@ -300,7 +327,7 @@ Test the API endpoints:
 
 ---
 
-### **8. Conclusion**
+### **9. Conclusion**
 
 By following this tutorial, you’ve built a simple yet robust application using the Hexagonal Architecture. This approach ensures that your application is modular, testable, and maintainable. You can now extend it further by adding features like email notifications, logging, or integrating with external APIs.
 
