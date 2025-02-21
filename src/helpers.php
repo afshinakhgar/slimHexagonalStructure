@@ -1,5 +1,4 @@
 <?php
-namespace App\Helpers;
 
 /**
  * Check if a string is a valid email address.
@@ -42,6 +41,11 @@ function formatDate(string $date, string $format = 'Y-m-d H:i:s'): string
     return $dateTime ? $dateTime->format($format) : 'Invalid Date';
 }
 
+/**
+ * Dump and die (debugging helper).
+ *
+ * @param mixed ...$data
+ */
 /**
  * Dump and die (debugging helper).
  *

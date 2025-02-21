@@ -8,6 +8,8 @@ class AppSetup
 {
     public static function getApp()
     {
+        require_once __DIR__ . '/../../src/Helpers.php';
+
         // Load environment variables from .env file
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
         $dotenv->load();
