@@ -36,5 +36,8 @@ require_once __DIR__ . '/../Providers/RepositoryProvider.php';
 require_once __DIR__ . '/../Providers/ServiceProvider.php';
 (new \App\Bootstrap\Providers\ServiceProvider())($builder);
 
+require_once __DIR__ . '/../Providers/ConfigProvider.php';
+(new \App\Bootstrap\Providers\ServiceProvider())($builder);
+
 //return $builder->build();
 return $builder->build();

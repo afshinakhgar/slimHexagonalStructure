@@ -13,6 +13,7 @@ class AppSetup
         // Load environment variables from .env file
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
         $dotenv->load();
+        global $container;
 
         // Create container
         $container = require __DIR__ . '/Dependencies/dependencies.php';

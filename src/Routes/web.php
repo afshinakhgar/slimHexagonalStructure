@@ -8,7 +8,8 @@ return function (App $app) {
 
     // Root route
     $app->get('/', function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response) {
-        $response->getBody()->write(json_encode(['message' => 'Welcome to the Hexagonal PHP API']));
+
+        $response->getBody()->write(json_encode(['message' =>  config('app_name')]));
         return $response->withHeader('Content-Type', 'application/json; charset=UTF-8');
     });
 

@@ -60,3 +60,21 @@ function dd(...$data): void
     echo '</pre>';
     die();
 }
+
+
+use App\Infrastructure\ConfigLoader;
+
+if (!function_exists('config')) {
+    $configLoader = null;
+
+    function config(string $key, $default = null)
+    {
+        global $configLoader;
+
+        if ($configLoader === null) {
+            $configLoader = new ConfigLoader(__DIR__ . '/../config');
+        }
+
+        return $configLoader->get($key, $default);
+    }
+}
