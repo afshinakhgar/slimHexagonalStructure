@@ -5,8 +5,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class AuthMiddleware
+class AuthMiddleware implements MiddlewareInterface
 {
     private string $jwtSecret;
 
@@ -16,7 +18,15 @@ class AuthMiddleware
         $this->jwtSecret = $container->get('config')['jwtSecret'];
     }
 
-    public function __invoke(Request $request, callable $next): Response
+
+    private function unauthorizedResponse(): Response
+    {
+        $response = new \Slim\Psr7\Response();
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json; charset=UTF-8')->withStatus(401);
+    }
+
+    public function process(Request $request, RequestHandlerInterface $handler): Response
     {
         $authHeader = $request->getHeaderLine('Authorization');
         if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
@@ -27,16 +37,10 @@ class AuthMiddleware
         try {
             $decoded = JWT::decode($token, new Key($this->jwtSecret, 'HS256'));
             $request = $request->withAttribute('user_id', $decoded->sub);
-            return $next($request);
+            return $handler->handle($request);
         } catch (\Exception $e) {
             return $this->unauthorizedResponse();
         }
-    }
-
-    private function unauthorizedResponse(): Response
-    {
-        $response = new \Slim\Psr7\Response();
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json; charset=UTF-8')->withStatus(401);
+        // TODO: Implement process() method.
     }
 }

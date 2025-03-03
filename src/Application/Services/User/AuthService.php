@@ -1,8 +1,9 @@
 <?php
-namespace App\Application\Services;
+namespace App\Application\Services\User;
 
+use App\Application\Services\AuthServicePort;
 use App\Ports\EventDispatcher;
-use App\Ports\UserRepository;
+use App\Ports\Repository\UserRepository;
 use Firebase\JWT\JWT;
 use Monolog\Logger;
 

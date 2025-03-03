@@ -1,11 +1,11 @@
 <?php
 namespace App\Bootstrap\Providers;
 
-use DI\ContainerBuilder;
-use App\Application\Services\{CreateUserService, AuthService, UpdateProfileService};
-use App\Ports\EventDispatcher;
-use App\Infrastructure\SimpleEventDispatcher;
+use App\Application\Services\{User\AuthService, User\CreateUserService, User\UpdateProfileService};
 use App\Infrastructure\Listeners\{LogUserRegistration, SendWelcomeEmail};
+use App\Infrastructure\SimpleEventDispatcher;
+use App\Ports\EventDispatcher;
+use DI\ContainerBuilder;
 
 class ServiceProvider
 {

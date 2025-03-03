@@ -4,7 +4,7 @@ use App\Application\Http\Controllers\Users\{RegisterUser, LoginUser, UpdateProfi
 
 return function (App $app) {
     // Add global middleware
-    $app->add(\App\Infrastructure\Middleware\LoggingMiddleware::class);
+    $app->add(\App\Infrastructure\Middleware\LoggingMiddleware::class)->add(\App\Infrastructure\Middleware\RateLimitMiddleware::class);
 
     // Root route
     $app->get('/', function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response) {

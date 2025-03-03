@@ -6,15 +6,17 @@
         }
     },
     "require": {
+        "ext-redis": "*",
+        "ext-pdo": "*",
         "php-di/php-di": "^7.0",
         "firebase/php-jwt": "^6.0",
         "slim/slim": "^4.0",
-        "slim/psr7": "^1.6",
+        "slim/psr7": "^1.7",
         "vlucas/phpdotenv": "^5.5",
         "phpunit/phpunit": "^9.5",
-        "ext-pdo": "*",
         "monolog/monolog": "^3.8",
-        "caseyamcl/configula": "^5.0"
+        "caseyamcl/configula": "^5.0",
+        "respect/validation": "^2.4"
     },
     "scripts": {
         "install-deps": "composer install",

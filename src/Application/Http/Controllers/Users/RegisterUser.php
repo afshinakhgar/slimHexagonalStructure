@@ -1,9 +1,9 @@
 <?php
 namespace App\Application\Http\Controllers\Users;
 
+use App\Application\Services\User\AuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Application\Services\AuthService;
 
 class RegisterUser
 {

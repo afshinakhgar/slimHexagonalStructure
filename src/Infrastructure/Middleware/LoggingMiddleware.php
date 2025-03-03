@@ -1,12 +1,13 @@
 <?php
 namespace App\Infrastructure\Middleware;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Monolog\Logger;
 
-class LoggingMiddleware
+class LoggingMiddleware implements MiddlewareInterface
 {
     private Logger $logger;
 
@@ -15,17 +16,11 @@ class LoggingMiddleware
         $this->logger = $logger;
     }
 
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        // Log the request method and URI
         $this->logger->info("Request received: {$request->getMethod()} {$request->getUri()}");
 
-        // Pass the request to the next middleware
-        $response = $handler->handle($request);
-
-        // Log the response status code
-        $this->logger->info("Response sent: {$response->getStatusCode()}");
-
-        return $response;
+        return $handler->handle($request);
     }
+
 }
